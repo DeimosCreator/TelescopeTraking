@@ -1,159 +1,135 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Telescope.Result
 {
-    internal class ShowImageInWindow// : Form
+    public class ZoomablePictureBox : Control
+    {
+        public Bitmap ImageBitmap { get; set; }
+
+        private float imageScale = 1f;  // масштаб для вписывания
+        private float userScale = 1f;   // пользовательский зум (1 = 100%)
+        private PointF offset;
+
+        private Point lastMouse;
+        private bool isPanning;
+
+        public ZoomablePictureBox()
+        {
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.ResizeRedraw, true);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (ImageBitmap == null) return;
+
+            imageScale = Math.Min((float)Width / ImageBitmap.Width, (float)Height / ImageBitmap.Height);
+            var dispW = ImageBitmap.Width * imageScale * userScale;
+            var dispH = ImageBitmap.Height * imageScale * userScale;
+            offset = new PointF(
+                (Width - dispW) / 2f,
+                (Height - dispH) / 2f);
+            Invalidate();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (ImageBitmap == null) return;
+
+            float drawScale = imageScale * userScale;
+
+            e.Graphics.TranslateTransform(offset.X, offset.Y);
+            e.Graphics.ScaleTransform(drawScale, drawScale);
+            e.Graphics.DrawImage(ImageBitmap, 0, 0);
+
+            e.Graphics.ResetTransform();
+            string text = $"{userScale * 100:F0}%";
+            var font = new Font("Arial", 10, FontStyle.Bold);
+            var brush = new SolidBrush(Color.White);
+            e.Graphics.DrawString(text, font, brush, new PointF(5, 5));
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) != Keys.Control) return;
+
+            float drawScale = imageScale * userScale;
+            var px = (e.X - offset.X) / drawScale;
+            var py = (e.Y - offset.Y) / drawScale;
+
+            userScale *= e.Delta > 0 ? 1.1f : 1f / 1.1f;
+            userScale = Math.Max(0.1f, Math.Min(10000f, userScale));
+
+            float newDraw = imageScale * userScale;
+            offset.X = e.X - px * newDraw;
+            offset.Y = e.Y - py * newDraw;
+
+            Invalidate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (e.Button == MouseButtons.Right)
+            {
+                isPanning = true;
+                lastMouse = e.Location;
+                Cursor = Cursors.SizeAll;
+            }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (isPanning)
+            {
+                offset.X += e.X - lastMouse.X;
+                offset.Y += e.Y - lastMouse.Y;
+                lastMouse = e.Location;
+                Invalidate();
+            }
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (e.Button == MouseButtons.Right)
+            {
+                isPanning = false;
+                Cursor = Cursors.Default;
+            }
+        }
+    }
+
+    internal class ShowImageInWindow
     {
         public void Show(Bitmap image, string title, bool isTopWindow)
         {
-            // Получаем размеры экрана
-            var screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            var screenHeight = Screen.PrimaryScreen.Bounds.Height;
+            var screen = Screen.PrimaryScreen.Bounds;
+            int wW = screen.Width / 2;
+            int wH = screen.Height / 2;
+            int wL = screen.Width - wW;
+            int wT = isTopWindow ? 0 : screen.Height - wH;
 
-            // Размер окна (1/2 экрана)
-            var windowWidth = screenWidth / 2;
-            var windowHeight = screenHeight / 2;
-
-            // Позиция окна (правый верхний или правый нижний угол)
-            int windowLeft = screenWidth - windowWidth;
-            int windowTop = isTopWindow ? 0 : screenHeight - windowHeight;
-
-            // Создаем окно
-            Form imageForm = new Form
+            var frm = new Form
             {
                 Text = title,
-                Size = new Size(windowWidth, windowHeight),
                 StartPosition = FormStartPosition.Manual,
-                Location = new Point(windowLeft, windowTop),
-                FormBorderStyle = FormBorderStyle.SizableToolWindow,
-                BackColor = Color.Black
+                Location = new Point(wL, wT),
+                Size = new Size(wW, wH)
             };
 
-            // Вычисляем начальный масштаб для подгонки изображения под окно
-            float scaleX = (float)windowWidth / image.Width;
-            float scaleY = (float)windowHeight / image.Height;
-            float initialScale = Math.Min(scaleX, scaleY);
-
-            int initialWidth = (int)(image.Width * initialScale);
-            int initialHeight = (int)(image.Height * initialScale);
-
-            // Создаем PictureBox для отображения изображения
-            PictureBox pictureBox = new PictureBox
+            var zoomBox = new ZoomablePictureBox
             {
-                Image = image,
-                SizeMode = PictureBoxSizeMode.Zoom,
-                Size = new Size(initialWidth, initialHeight),
-                Location = new Point(
-                    (windowWidth - initialWidth) / 2,
-                    (windowHeight - initialHeight) / 2
-                )
+                Dock = DockStyle.Fill,
+                ImageBitmap = image
             };
-
-            // Добавляем метку масштаба
-            Label scaleLabel = new Label
-            {
-                Text = $"Масштаб: {initialScale * 100:F1}%",
-                AutoSize = true,
-                Font = new Font("Arial", 10, FontStyle.Bold),
-                BackColor = Color.White,
-                ForeColor = Color.Black,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                Location = new Point(windowWidth - 120, 10)
-            };
-
-            float currentScale = initialScale;
-
-            imageForm.Controls.Add(pictureBox);
-            imageForm.Controls.Add(scaleLabel);
-
-            // Перемещение изображения с помощью правой кнопки мыши
-            Point mouseDownLocation = Point.Empty;
-            Point dragOffset = Point.Empty;
-            bool isDragging = false;
-
-            pictureBox.MouseDown += (s, e) =>
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    isDragging = true;
-                    mouseDownLocation = e.Location; // Позиция мыши относительно PictureBox
-                }
-            };
-
-            pictureBox.MouseMove += (s, e) =>
-            {
-                if (isDragging)
-                {
-                    int dx = e.X - mouseDownLocation.X;
-                    int dy = e.Y - mouseDownLocation.Y;
-
-                    dragOffset = new Point(
-                        pictureBox.Location.X + dx,
-                        pictureBox.Location.Y + dy
-                    );
-
-                    pictureBox.Location = dragOffset;
-                }
-            };
-
-            pictureBox.MouseUp += (s, e) =>
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    isDragging = false;
-                }
-            };
-
-            // Управление масштабом с помощью Ctrl + колесо мыши
-            imageForm.MouseWheel += (s, e) =>
-            {
-                if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-                {
-                    float oldScale = currentScale;
-
-                    if (e.Delta > 0)
-                        currentScale *= 1.1f; // Увеличить масштаб
-                    else if (e.Delta < 0)
-                        currentScale /= 1.1f; // Уменьшить масштаб
-
-                    // Ограничиваем масштаб, чтобы изображение не исчезало
-                    currentScale = Math.Max(0.1f, Math.Min(5.0f, currentScale)); // Ограничение масштаба
-
-                    // Сохраняем позицию курсора относительно изображения
-                    Point cursorPositionInImage = pictureBox.PointToClient(Control.MousePosition);
-
-                    // Пересчитываем размеры PictureBox
-                    int newWidth = (int)(image.Width * currentScale);
-                    int newHeight = (int)(image.Height * currentScale);
-
-                    // Проверка на минимальный размер изображения
-                    newWidth = Math.Max(newWidth, windowWidth);
-                    newHeight = Math.Max(newHeight, windowHeight);
-
-                    // При изменении масштаба, корректируем положение изображения с учетом курсора
-                    float scaleFactor = currentScale / oldScale;
-
-                    // Центрируем изображение, корректируя смещение
-                    pictureBox.Size = new Size(newWidth, newHeight);
-
-                    pictureBox.Location = new Point(
-                        pictureBox.Location.X - (int)((cursorPositionInImage.X) * (scaleFactor - 1)),
-                        pictureBox.Location.Y - (int)((cursorPositionInImage.Y) * (scaleFactor - 1))
-                    );
-
-                    // Обновляем метку масштаба
-                    scaleLabel.Text = $"Масштаб: {currentScale * 100:F1}%";
-                }
-            };
-
-            imageForm.Controls.SetChildIndex(scaleLabel, 0); // Гарантируем, что метка сверху
-            imageForm.Show();
+            frm.Controls.Add(zoomBox);
+            frm.Show();
         }
     }
 }

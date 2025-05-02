@@ -6,6 +6,7 @@ namespace Telescope.Vars
 {
      public class Initialize
      {
+        public bool Enabled { get; set; }
 
         public Button buttonLoadImage1;
         public Button buttonLoadImage2;

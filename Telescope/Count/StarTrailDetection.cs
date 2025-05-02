@@ -60,17 +60,18 @@ namespace Telescope.Count
                 double centerY = moments.M01 / moments.M00;
 
                 // Вычисляем длину размытия
-                double blurLength = CalculateBlurLength(contour, new PointF((float)centerX, (float)centerY));
+                (var blurLength, var angle) = CalculateBlurLength(contour, new PointF((float)centerX, (float)centerY));
 
-                // Сохраняем информацию о звезде
                 stars.Add(new StarInfo
                 {
                     Center = new PointF((float)centerX, (float)centerY),
                     Area = area,
                     Perimeter = perimeter,
                     Circularity = circularity,
-                    BlurLength = blurLength
+                    BlurLength = blurLength,
+                    Angle = angle
                 });
+
             }
 
             return stars;
@@ -104,12 +105,10 @@ namespace Telescope.Count
         }
 
         // Метод для вычисления длины размытия
-        private double CalculateBlurLength(VectorOfPoint contour, PointF center)
+        private (double blurLength, double angle) CalculateBlurLength(VectorOfPoint contour, PointF center)
         {
-            // Конвертируем контур в массив точек
             var points = contour.ToArray();
 
-            // Вычисляем ковариационную матрицу для анализа главных осей
             double sumX = 0, sumY = 0, sumXX = 0, sumYY = 0, sumXY = 0;
             int n = points.Length;
 
@@ -125,32 +124,27 @@ namespace Telescope.Count
                 sumXY += dx * dy;
             }
 
-            // Средние значения
             double meanX = sumX / n;
             double meanY = sumY / n;
-
-            // Ковариационные элементы
             double varXX = sumXX / n - meanX * meanX;
             double varYY = sumYY / n - meanY * meanY;
             double varXY = sumXY / n - meanX * meanY;
 
-            // Собственные значения ковариационной матрицы
             double trace = varXX + varYY;
             double det = varXX * varYY - varXY * varXY;
-
             double eigenvalue1 = trace / 2 + Math.Sqrt(trace * trace / 4 - det);
             double eigenvalue2 = trace / 2 - Math.Sqrt(trace * trace / 4 - det);
 
-            // Длина главной оси (размытие вдоль неё)
-            double majorAxisLength = 2 * Math.Sqrt(eigenvalue1); // Удвоенная стандартная девиация
-            double minorAxisLength = 2 * Math.Sqrt(eigenvalue2);
+            double angle = 0;
+            if (varXY != 0)
+                angle = 0.5 * Math.Atan2(2 * varXY, varXX - varYY);
 
-            // Длина размытия — разница между главной и малой осью
+            double majorAxisLength = 2 * Math.Sqrt(eigenvalue1);
+            double minorAxisLength = 2 * Math.Sqrt(eigenvalue2);
             double blurLength = majorAxisLength - minorAxisLength;
 
-            return blurLength;
+            return (blurLength, angle);
         }
-
 
         // Метод для подсчёта средней длины размытия
         public double CalculateAverageBlurLength(List<StarInfo> stars)
@@ -166,13 +160,19 @@ namespace Telescope.Count
             {
                 foreach (var star in stars)
                 {
-                    // Рисуем круг вокруг звезды
-                    float radius = (float)Math.Sqrt(star.Area / Math.PI);
-                    g.DrawEllipse(Pens.Red, star.Center.X - radius, star.Center.Y - radius, radius * 2, radius * 2);
+                    double halfLength = star.BlurLength / 2;
+                    double dx = halfLength * Math.Cos(star.Angle);
+                    double dy = halfLength * Math.Sin(star.Angle);
+
+                    PointF start = new PointF((float)(star.Center.X - dx), (float)(star.Center.Y - dy));
+                    PointF end = new PointF((float)(star.Center.X + dx), (float)(star.Center.Y + dy));
+
+                    g.DrawLine(Pens.Red, start, end);
                 }
             }
             return result;
         }
+
 
         public double CalculateOptimalSpeed(double averageBlurLength, double exposureTime, double currentSpeed)
         {
@@ -234,6 +234,7 @@ namespace Telescope.Count
             public double Perimeter { get; set; }
             public double Circularity { get; set; }
             public double BlurLength { get; set; }
+            public double Angle { get; set; }
         }
     }
 }
