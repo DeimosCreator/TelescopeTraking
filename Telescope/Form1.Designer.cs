@@ -46,7 +46,7 @@ namespace Telescope
             // 
             // buttonCalculateAndPlot
             // 
-            Initialize.Instance.buttonCalculateAndPlot.Location = new System.Drawing.Point(20, 300);
+            Initialize.Instance.buttonCalculateAndPlot.Location = new System.Drawing.Point(20, 350);
             Initialize.Instance.buttonCalculateAndPlot.Name = "buttonCalculateAndPlot";
             Initialize.Instance.buttonCalculateAndPlot.Size = new System.Drawing.Size(200, 30);
             Initialize.Instance.buttonCalculateAndPlot.TabIndex = 2;
@@ -138,6 +138,22 @@ namespace Telescope
             Initialize.Instance.labelSpeed.Size = new System.Drawing.Size(133, 16);
             Initialize.Instance.labelSpeed.TabIndex = 12;
             Initialize.Instance.labelSpeed.Text = "Скорость (угл./сек):";
+            // textBoxExposureTime
+            Initialize.Instance.textBoxExposureTime = new System.Windows.Forms.TextBox();
+            Initialize.Instance.textBoxExposureTime.Location = new System.Drawing.Point(150, 280);
+            Initialize.Instance.textBoxExposureTime.Name = "textBoxExposureTime";
+            Initialize.Instance.textBoxExposureTime.Size = new System.Drawing.Size(70, 22);
+            Initialize.Instance.textBoxExposureTime.TabIndex = 9;
+            Initialize.Instance.textBoxExposureTime.Text = "10";
+
+            // labelExposureTime
+            Initialize.Instance.labelExposureTime = new System.Windows.Forms.Label();
+            Initialize.Instance.labelExposureTime.AutoSize = true;
+            Initialize.Instance.labelExposureTime.Location = new System.Drawing.Point(20, 283);
+            Initialize.Instance.labelExposureTime.Name = "labelExposureTime";
+            Initialize.Instance.labelExposureTime.Size = new System.Drawing.Size(123, 16);
+            Initialize.Instance.labelExposureTime.TabIndex = 13;
+            Initialize.Instance.labelExposureTime.Text = "Экспозиция (сек):";
             // 
             // chart
             // 
@@ -163,6 +179,8 @@ namespace Telescope
             this.Controls.Add(Initialize.Instance.labelMinClusterSize);
             this.Controls.Add(Initialize.Instance.labelCircularity);
             this.Controls.Add(Initialize.Instance.labelSpeed);
+            this.Controls.Add(Initialize.Instance.textBoxExposureTime);
+            this.Controls.Add(Initialize.Instance.labelExposureTime);
             this.Controls.Add(Initialize.Instance.chart);
 
             this.Text = "Анализ звёздных смазываний";

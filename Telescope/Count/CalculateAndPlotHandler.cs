@@ -59,7 +59,14 @@ namespace Telescope.Count
             double averageBlur1 = detector.CalculateAverageBlurLength(stars1);
             double averageBlur2 = detector.CalculateAverageBlurLength(stars2);
 
-            double optimalSpeed = detector.CalculateOptimalSpeed((averageBlur1 + averageBlur2) / 2, 10.0, trackingSpeed); // Задаем время экспозиции в 10 секунд
+            //Проверка выдержки
+            if (!double.TryParse(Initialize.Instance.textBoxExposureTime.Text, out double exposureTime) || exposureTime <= 0)
+            {
+                MessageBox.Show("Введите корректное значение выдержки.");
+                return;
+            }
+
+            double optimalSpeed = detector.CalculateOptimalSpeed((averageBlur1 + averageBlur2) / 2, exposureTime, trackingSpeed); // Задаем время экспозиции в 10 секунд
             MessageBox.Show($"Оптимальная скорость: {optimalSpeed:F2} угл. секунд/сек.");
 
             // Построение графика

@@ -56,6 +56,7 @@ namespace Telescope.Count
 
                 // Нахождение центра масс
                 var moments = CvInvoke.Moments(contour);
+                if (moments.M00 == 0) continue;
                 double centerX = moments.M10 / moments.M00;
                 double centerY = moments.M01 / moments.M00;
 
@@ -132,8 +133,11 @@ namespace Telescope.Count
 
             double trace = varXX + varYY;
             double det = varXX * varYY - varXY * varXY;
-            double eigenvalue1 = trace / 2 + Math.Sqrt(trace * trace / 4 - det);
-            double eigenvalue2 = trace / 2 - Math.Sqrt(trace * trace / 4 - det);
+            double delta = trace * trace / 4 - det;
+            if (delta < 0) delta = 0;
+            double eigenvalue1 = trace / 2 + Math.Sqrt(delta);
+            double eigenvalue2 = trace / 2 - Math.Sqrt(delta);
+
 
             double angle = 0;
             if (varXY != 0)

@@ -28,6 +28,8 @@ namespace Telescope.Vars
         public TextBox textBoxCircularity;
         public Label labelMinClusterSize;
         public Label labelCircularity;
+        public TextBox textBoxExposureTime;
+        public Label labelExposureTime;
         public Bitmap img1;
         public Bitmap img2;
 
