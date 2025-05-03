@@ -30,6 +30,7 @@ namespace Telescope.Vars
         public Label labelCircularity;
         public TextBox textBoxExposureTime;
         public Label labelExposureTime;
+
         public Bitmap img1;
         public Bitmap img2;
 
