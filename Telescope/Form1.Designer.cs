@@ -1,191 +1,208 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using Telescope.Vars;
-
+﻿/* Form1.Designer.cs */
 namespace Telescope
 {
-    public partial class Form1 : Form
+    partial class Form1
     {
+        private System.Windows.Forms.Button buttonLoadImage1;
+        private System.Windows.Forms.Button buttonLoadImage2;
+        private System.Windows.Forms.Button buttonCalculateAndPlot;
+        private System.Windows.Forms.Label labelImage1Path;
+        private System.Windows.Forms.Label labelImage2Path;
+        private System.Windows.Forms.TextBox textBoxMinBrightness;
+        private System.Windows.Forms.TextBox textBoxMinClusterSize;
+        private System.Windows.Forms.TextBox textBoxCircularity;
+        private System.Windows.Forms.TextBox textBoxSpeed;
+        private System.Windows.Forms.TextBox textBoxExposureTime;
+        private System.Windows.Forms.Label labelMinBrightness;
+        private System.Windows.Forms.Label labelMinClusterSize;
+        private System.Windows.Forms.Label labelCircularity;
+        private System.Windows.Forms.Label labelSpeed;
+        private System.Windows.Forms.Label labelExposureTime;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+
         private void InitializeComponent()
         {
-            Initialize.Instance.buttonLoadImage1 = new System.Windows.Forms.Button();
-            Initialize.Instance.buttonLoadImage2 = new System.Windows.Forms.Button();
-            Initialize.Instance.buttonCalculateAndPlot = new System.Windows.Forms.Button();
-            Initialize.Instance.labelImage1Path = new System.Windows.Forms.Label();
-            Initialize.Instance.labelImage2Path = new System.Windows.Forms.Label();
-            Initialize.Instance.textBoxMinBrightness = new System.Windows.Forms.TextBox();
-            Initialize.Instance.textBoxMinClusterSize = new System.Windows.Forms.TextBox();
-            Initialize.Instance.textBoxCircularity = new System.Windows.Forms.TextBox();
-            Initialize.Instance.textBoxSpeed = new System.Windows.Forms.TextBox();
-            Initialize.Instance.labelMinBrightness = new System.Windows.Forms.Label();
-            Initialize.Instance.labelMinClusterSize = new System.Windows.Forms.Label();
-            Initialize.Instance.labelCircularity = new System.Windows.Forms.Label();
-            Initialize.Instance.labelSpeed = new System.Windows.Forms.Label();
-            Initialize.Instance.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(Initialize.Instance.chart)).BeginInit();
+            this.buttonLoadImage1 = new System.Windows.Forms.Button();
+            this.buttonLoadImage2 = new System.Windows.Forms.Button();
+            this.buttonCalculateAndPlot = new System.Windows.Forms.Button();
+            this.labelImage1Path = new System.Windows.Forms.Label();
+            this.labelImage2Path = new System.Windows.Forms.Label();
+            this.textBoxMinBrightness = new System.Windows.Forms.TextBox();
+            this.textBoxMinClusterSize = new System.Windows.Forms.TextBox();
+            this.textBoxCircularity = new System.Windows.Forms.TextBox();
+            this.textBoxSpeed = new System.Windows.Forms.TextBox();
+            this.textBoxExposureTime = new System.Windows.Forms.TextBox();
+            this.labelMinBrightness = new System.Windows.Forms.Label();
+            this.labelMinClusterSize = new System.Windows.Forms.Label();
+            this.labelCircularity = new System.Windows.Forms.Label();
+            this.labelSpeed = new System.Windows.Forms.Label();
+            this.labelExposureTime = new System.Windows.Forms.Label();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLoadImage1
             // 
-            Initialize.Instance.buttonLoadImage1.Location = new System.Drawing.Point(20, 20);
-            Initialize.Instance.buttonLoadImage1.Name = "buttonLoadImage1";
-            Initialize.Instance.buttonLoadImage1.Size = new System.Drawing.Size(200, 30);
-            Initialize.Instance.buttonLoadImage1.TabIndex = 0;
-            Initialize.Instance.buttonLoadImage1.Text = "Загрузить изображение 1";
-            Initialize.Instance.buttonLoadImage1.UseVisualStyleBackColor = true;
+            this.buttonLoadImage1.Location = new System.Drawing.Point(20, 20);
+            this.buttonLoadImage1.Name = "buttonLoadImage1";
+            this.buttonLoadImage1.Size = new System.Drawing.Size(200, 30);
+            this.buttonLoadImage1.TabIndex = 0;
+            this.buttonLoadImage1.Text = "Загрузить изображение 1";
+            this.buttonLoadImage1.UseVisualStyleBackColor = true;
             // 
             // buttonLoadImage2
             // 
-            Initialize.Instance.buttonLoadImage2.Location = new System.Drawing.Point(20, 60);
-            Initialize.Instance.buttonLoadImage2.Name = "buttonLoadImage2";
-            Initialize.Instance.buttonLoadImage2.Size = new System.Drawing.Size(200, 30);
-            Initialize.Instance.buttonLoadImage2.TabIndex = 1;
-            Initialize.Instance.buttonLoadImage2.Text = "Загрузить изображение 2";
-            Initialize.Instance.buttonLoadImage2.UseVisualStyleBackColor = true;
+            this.buttonLoadImage2.Location = new System.Drawing.Point(20, 60);
+            this.buttonLoadImage2.Name = "buttonLoadImage2";
+            this.buttonLoadImage2.Size = new System.Drawing.Size(200, 30);
+            this.buttonLoadImage2.TabIndex = 1;
+            this.buttonLoadImage2.Text = "Загрузить изображение 2";
+            this.buttonLoadImage2.UseVisualStyleBackColor = true;
             // 
             // buttonCalculateAndPlot
             // 
-            Initialize.Instance.buttonCalculateAndPlot.Location = new System.Drawing.Point(20, 350);
-            Initialize.Instance.buttonCalculateAndPlot.Name = "buttonCalculateAndPlot";
-            Initialize.Instance.buttonCalculateAndPlot.Size = new System.Drawing.Size(200, 30);
-            Initialize.Instance.buttonCalculateAndPlot.TabIndex = 2;
-            Initialize.Instance.buttonCalculateAndPlot.Text = "Рассчитать и построить";
-            Initialize.Instance.buttonCalculateAndPlot.UseVisualStyleBackColor = true;
+            this.buttonCalculateAndPlot.Location = new System.Drawing.Point(20, 350);
+            this.buttonCalculateAndPlot.Name = "buttonCalculateAndPlot";
+            this.buttonCalculateAndPlot.Size = new System.Drawing.Size(200, 30);
+            this.buttonCalculateAndPlot.TabIndex = 2;
+            this.buttonCalculateAndPlot.Text = "Рассчитать и построить";
+            this.buttonCalculateAndPlot.UseVisualStyleBackColor = true;
             // 
             // labelImage1Path
             // 
-            Initialize.Instance.labelImage1Path.AutoSize = true;
-            Initialize.Instance.labelImage1Path.Location = new System.Drawing.Point(240, 25);
-            Initialize.Instance.labelImage1Path.Name = "labelImage1Path";
-            Initialize.Instance.labelImage1Path.Size = new System.Drawing.Size(153, 16);
-            Initialize.Instance.labelImage1Path.TabIndex = 3;
-            Initialize.Instance.labelImage1Path.Text = "Путь к изображению 1";
+            this.labelImage1Path.AutoSize = true;
+            this.labelImage1Path.Location = new System.Drawing.Point(240, 25);
+            this.labelImage1Path.Name = "labelImage1Path";
+            this.labelImage1Path.Size = new System.Drawing.Size(153, 16);
+            this.labelImage1Path.TabIndex = 3;
+            this.labelImage1Path.Text = "Путь к изображению 1";
             // 
             // labelImage2Path
             // 
-            Initialize.Instance.labelImage2Path.AutoSize = true;
-            Initialize.Instance.labelImage2Path.Location = new System.Drawing.Point(240, 65);
-            Initialize.Instance.labelImage2Path.Name = "labelImage2Path";
-            Initialize.Instance.labelImage2Path.Size = new System.Drawing.Size(153, 16);
-            Initialize.Instance.labelImage2Path.TabIndex = 4;
-            Initialize.Instance.labelImage2Path.Text = "Путь к изображению 2";
+            this.labelImage2Path.AutoSize = true;
+            this.labelImage2Path.Location = new System.Drawing.Point(240, 65);
+            this.labelImage2Path.Name = "labelImage2Path";
+            this.labelImage2Path.Size = new System.Drawing.Size(153, 16);
+            this.labelImage2Path.TabIndex = 4;
+            this.labelImage2Path.Text = "Путь к изображению 2";
             // 
             // textBoxMinBrightness
             // 
-            Initialize.Instance.textBoxMinBrightness.Location = new System.Drawing.Point(150, 120);
-            Initialize.Instance.textBoxMinBrightness.Name = "textBoxMinBrightness";
-            Initialize.Instance.textBoxMinBrightness.Size = new System.Drawing.Size(70, 22);
-            Initialize.Instance.textBoxMinBrightness.TabIndex = 5;
-            Initialize.Instance.textBoxMinBrightness.Text = "20";
+            this.textBoxMinBrightness.Location = new System.Drawing.Point(150, 120);
+            this.textBoxMinBrightness.Name = "textBoxMinBrightness";
+            this.textBoxMinBrightness.Size = new System.Drawing.Size(70, 22);
+            this.textBoxMinBrightness.TabIndex = 5;
+            this.textBoxMinBrightness.Text = "20";
             // 
             // textBoxMinClusterSize
             // 
-            Initialize.Instance.textBoxMinClusterSize.Location = new System.Drawing.Point(150, 160);
-            Initialize.Instance.textBoxMinClusterSize.Name = "textBoxMinClusterSize";
-            Initialize.Instance.textBoxMinClusterSize.Size = new System.Drawing.Size(70, 22);
-            Initialize.Instance.textBoxMinClusterSize.TabIndex = 6;
-            Initialize.Instance.textBoxMinClusterSize.Text = "17";
+            this.textBoxMinClusterSize.Location = new System.Drawing.Point(150, 160);
+            this.textBoxMinClusterSize.Name = "textBoxMinClusterSize";
+            this.textBoxMinClusterSize.Size = new System.Drawing.Size(70, 22);
+            this.textBoxMinClusterSize.TabIndex = 6;
+            this.textBoxMinClusterSize.Text = "17";
             // 
             // textBoxCircularity
             // 
-            Initialize.Instance.textBoxCircularity.Location = new System.Drawing.Point(150, 200);
-            Initialize.Instance.textBoxCircularity.Name = "textBoxCircularity";
-            Initialize.Instance.textBoxCircularity.Size = new System.Drawing.Size(70, 22);
-            Initialize.Instance.textBoxCircularity.TabIndex = 7;
-            Initialize.Instance.textBoxCircularity.Text = "0,2";
+            this.textBoxCircularity.Location = new System.Drawing.Point(150, 200);
+            this.textBoxCircularity.Name = "textBoxCircularity";
+            this.textBoxCircularity.Size = new System.Drawing.Size(70, 22);
+            this.textBoxCircularity.TabIndex = 7;
+            this.textBoxCircularity.Text = "0,2";
             // 
             // textBoxSpeed
             // 
-            Initialize.Instance.textBoxSpeed.Location = new System.Drawing.Point(150, 240);
-            Initialize.Instance.textBoxSpeed.Name = "textBoxSpeed";
-            Initialize.Instance.textBoxSpeed.Size = new System.Drawing.Size(70, 22);
-            Initialize.Instance.textBoxSpeed.TabIndex = 8;
-            Initialize.Instance.textBoxSpeed.Text = "10";
+            this.textBoxSpeed.Location = new System.Drawing.Point(150, 240);
+            this.textBoxSpeed.Name = "textBoxSpeed";
+            this.textBoxSpeed.Size = new System.Drawing.Size(70, 22);
+            this.textBoxSpeed.TabIndex = 8;
+            this.textBoxSpeed.Text = "10";
+            // 
+            // textBoxExposureTime
+            // 
+            this.textBoxExposureTime.Location = new System.Drawing.Point(150, 280);
+            this.textBoxExposureTime.Name = "textBoxExposureTime";
+            this.textBoxExposureTime.Size = new System.Drawing.Size(70, 22);
+            this.textBoxExposureTime.TabIndex = 9;
+            this.textBoxExposureTime.Text = "10";
             // 
             // labelMinBrightness
             // 
-            Initialize.Instance.labelMinBrightness.AutoSize = true;
-            Initialize.Instance.labelMinBrightness.Location = new System.Drawing.Point(20, 123);
-            Initialize.Instance.labelMinBrightness.Name = "labelMinBrightness";
-            Initialize.Instance.labelMinBrightness.Size = new System.Drawing.Size(137, 16);
-            Initialize.Instance.labelMinBrightness.TabIndex = 9;
-            Initialize.Instance.labelMinBrightness.Text = "Мин. яркость (0-255):";
+            this.labelMinBrightness.AutoSize = true;
+            this.labelMinBrightness.Location = new System.Drawing.Point(20, 123);
+            this.labelMinBrightness.Name = "labelMinBrightness";
+            this.labelMinBrightness.Size = new System.Drawing.Size(137, 16);
+            this.labelMinBrightness.TabIndex = 10;
+            this.labelMinBrightness.Text = "Мин. яркость (0-255):";
             // 
             // labelMinClusterSize
             // 
-            Initialize.Instance.labelMinClusterSize.AutoSize = true;
-            Initialize.Instance.labelMinClusterSize.Location = new System.Drawing.Point(20, 163);
-            Initialize.Instance.labelMinClusterSize.Name = "labelMinClusterSize";
-            Initialize.Instance.labelMinClusterSize.Size = new System.Drawing.Size(144, 16);
-            Initialize.Instance.labelMinClusterSize.TabIndex = 10;
-            Initialize.Instance.labelMinClusterSize.Text = "Мин. размер звезды:";
+            this.labelMinClusterSize.AutoSize = true;
+            this.labelMinClusterSize.Location = new System.Drawing.Point(20, 163);
+            this.labelMinClusterSize.Name = "labelMinClusterSize";
+            this.labelMinClusterSize.Size = new System.Drawing.Size(144, 16);
+            this.labelMinClusterSize.TabIndex = 11;
+            this.labelMinClusterSize.Text = "Мин. размер звезды:";
             // 
             // labelCircularity
             // 
-            Initialize.Instance.labelCircularity.AutoSize = true;
-            Initialize.Instance.labelCircularity.Location = new System.Drawing.Point(20, 203);
-            Initialize.Instance.labelCircularity.Name = "labelCircularity";
-            Initialize.Instance.labelCircularity.Size = new System.Drawing.Size(115, 16);
-            Initialize.Instance.labelCircularity.TabIndex = 11;
-            Initialize.Instance.labelCircularity.Text = "Округлость (0-1):";
+            this.labelCircularity.AutoSize = true;
+            this.labelCircularity.Location = new System.Drawing.Point(20, 203);
+            this.labelCircularity.Name = "labelCircularity";
+            this.labelCircularity.Size = new System.Drawing.Size(115, 16);
+            this.labelCircularity.TabIndex = 12;
+            this.labelCircularity.Text = "Округлость (0-1):";
             // 
             // labelSpeed
             // 
-            Initialize.Instance.labelSpeed.AutoSize = true;
-            Initialize.Instance.labelSpeed.Location = new System.Drawing.Point(20, 243);
-            Initialize.Instance.labelSpeed.Name = "labelSpeed";
-            Initialize.Instance.labelSpeed.Size = new System.Drawing.Size(133, 16);
-            Initialize.Instance.labelSpeed.TabIndex = 12;
-            Initialize.Instance.labelSpeed.Text = "Скорость (угл./сек):";
-            // textBoxExposureTime
-            Initialize.Instance.textBoxExposureTime = new System.Windows.Forms.TextBox();
-            Initialize.Instance.textBoxExposureTime.Location = new System.Drawing.Point(150, 280);
-            Initialize.Instance.textBoxExposureTime.Name = "textBoxExposureTime";
-            Initialize.Instance.textBoxExposureTime.Size = new System.Drawing.Size(70, 22);
-            Initialize.Instance.textBoxExposureTime.TabIndex = 9;
-            Initialize.Instance.textBoxExposureTime.Text = "10";
-
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Location = new System.Drawing.Point(20, 243);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(133, 16);
+            this.labelSpeed.TabIndex = 13;
+            this.labelSpeed.Text = "Скорость (угл./сек):";
+            // 
             // labelExposureTime
-            Initialize.Instance.labelExposureTime = new System.Windows.Forms.Label();
-            Initialize.Instance.labelExposureTime.AutoSize = true;
-            Initialize.Instance.labelExposureTime.Location = new System.Drawing.Point(20, 283);
-            Initialize.Instance.labelExposureTime.Name = "labelExposureTime";
-            Initialize.Instance.labelExposureTime.Size = new System.Drawing.Size(123, 16);
-            Initialize.Instance.labelExposureTime.TabIndex = 13;
-            Initialize.Instance.labelExposureTime.Text = "Экспозиция (сек):";
+            // 
+            this.labelExposureTime.AutoSize = true;
+            this.labelExposureTime.Location = new System.Drawing.Point(20, 283);
+            this.labelExposureTime.Name = "labelExposureTime";
+            this.labelExposureTime.Size = new System.Drawing.Size(123, 16);
+            this.labelExposureTime.TabIndex = 14;
+            this.labelExposureTime.Text = "Экспозиция (сек):";
             // 
             // chart
             // 
-            Initialize.Instance.chart.Location = new System.Drawing.Point(250, 100);
-            Initialize.Instance.chart.Name = "chart";
-            Initialize.Instance.chart.Size = new System.Drawing.Size(500, 300);
-            Initialize.Instance.chart.TabIndex = 0;
-            Initialize.Instance.chart.Text = "chart";
+            this.chart.Location = new System.Drawing.Point(250, 100);
+            this.chart.Name = "chart";
+            this.chart.Size = new System.Drawing.Size(500, 300);
+            this.chart.TabIndex = 15;
+            this.chart.Text = "chart";
             // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(Initialize.Instance.buttonLoadImage1);
-            this.Controls.Add(Initialize.Instance.buttonLoadImage2);
-            this.Controls.Add(Initialize.Instance.buttonCalculateAndPlot);
-            this.Controls.Add(Initialize.Instance.labelImage1Path);
-            this.Controls.Add(Initialize.Instance.labelImage2Path);
-            this.Controls.Add(Initialize.Instance.textBoxMinBrightness);
-            this.Controls.Add(Initialize.Instance.textBoxMinClusterSize);
-            this.Controls.Add(Initialize.Instance.textBoxCircularity);
-            this.Controls.Add(Initialize.Instance.textBoxSpeed);
-            this.Controls.Add(Initialize.Instance.labelMinBrightness);
-            this.Controls.Add(Initialize.Instance.labelMinClusterSize);
-            this.Controls.Add(Initialize.Instance.labelCircularity);
-            this.Controls.Add(Initialize.Instance.labelSpeed);
-            this.Controls.Add(Initialize.Instance.textBoxExposureTime);
-            this.Controls.Add(Initialize.Instance.labelExposureTime);
-            this.Controls.Add(Initialize.Instance.chart);
-
+            this.Controls.Add(this.buttonLoadImage1);
+            this.Controls.Add(this.buttonLoadImage2);
+            this.Controls.Add(this.buttonCalculateAndPlot);
+            this.Controls.Add(this.labelImage1Path);
+            this.Controls.Add(this.labelImage2Path);
+            this.Controls.Add(this.textBoxMinBrightness);
+            this.Controls.Add(this.textBoxMinClusterSize);
+            this.Controls.Add(this.textBoxCircularity);
+            this.Controls.Add(this.textBoxSpeed);
+            this.Controls.Add(this.textBoxExposureTime);
+            this.Controls.Add(this.labelMinBrightness);
+            this.Controls.Add(this.labelMinClusterSize);
+            this.Controls.Add(this.labelCircularity);
+            this.Controls.Add(this.labelSpeed);
+            this.Controls.Add(this.labelExposureTime);
+            this.Controls.Add(this.chart);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "Form1";
             this.Text = "Анализ звёздных смазываний";
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Icon = new System.Drawing.Icon("C:\\Program Files\\TelescopeTracking\\icon.ico");
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }

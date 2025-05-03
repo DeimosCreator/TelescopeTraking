@@ -17,6 +17,23 @@ namespace Telescope
         public Form1()
         {
             InitializeComponent();
+            var I = Telescope.Vars.Initialize.Instance;
+            I.buttonLoadImage1 = this.buttonLoadImage1;
+            I.buttonLoadImage2 = this.buttonLoadImage2;
+            I.buttonCalculateAndPlot = this.buttonCalculateAndPlot;
+            I.labelImage1Path = this.labelImage1Path;
+            I.labelImage2Path = this.labelImage2Path;
+            I.textBoxMinBrightness = this.textBoxMinBrightness;
+            I.textBoxMinClusterSize = this.textBoxMinClusterSize;
+            I.textBoxCircularity = this.textBoxCircularity;
+            I.textBoxSpeed = this.textBoxSpeed;
+            I.textBoxExposureTime = this.textBoxExposureTime;
+            I.labelMinBrightness = this.labelMinBrightness;
+            I.labelMinClusterSize = this.labelMinClusterSize;
+            I.labelCircularity = this.labelCircularity;
+            I.labelSpeed = this.labelSpeed;
+            I.labelExposureTime = this.labelExposureTime;
+            I.chart = this.chart;
 
             // Подключение обработчиков событий
             Initialize.Instance.buttonLoadImage1.Click += LoadImage1Handler;
