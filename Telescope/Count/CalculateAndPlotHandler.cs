@@ -66,7 +66,7 @@ namespace Telescope.Count
                 return;
             }
 
-            double optimalSpeed = detector.CalculateOptimalSpeed((averageBlur1 + averageBlur2) / 2, exposureTime, trackingSpeed); // Задаем время экспозиции в 10 секунд
+            double optimalSpeed = detector.CalculateOptimalSpeed((averageBlur1 + averageBlur2) / 2, exposureTime, trackingSpeed);
             MessageBox.Show($"Оптимальная скорость: {optimalSpeed:F2} угл. секунд/сек.");
 
             // Построение графика
